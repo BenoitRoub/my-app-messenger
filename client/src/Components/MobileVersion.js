@@ -7,7 +7,6 @@ import SearchUserForm from "./SearchUserForm";
 import Button from "@material-ui/core/Button";
 import Fab from "@material-ui/core/Fab";
 import AppBar from "@material-ui/core/AppBar";
-import ToolBar from "@material-ui/core/ToolBar";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
@@ -21,26 +20,25 @@ export default function MobileVersion(props) {
 	const [index, setIndex] = useState(conversations.length + 3);
 	return (
 		<React.Fragment>
-			<AppBar position="fixed">
-				<ToolBar style={{ justifyContent: "space-between" }}>
+			<AppBar
+				position="fixed"
+				style={{ justifyContent: "space-between" }}
+			>
+				<IconButton onClick={() => setIndex(conversations.length + 3)}>
+					<ForumIcon />
+				</IconButton>
+				<div>
 					<IconButton
-						onClick={() => setIndex(conversations.length + 3)}
+						onClick={() => setIndex(conversations.length + 1)}
 					>
-						<ForumIcon />
+						<MessageIcon />
 					</IconButton>
-					<div>
-						<IconButton
-							onClick={() => setIndex(conversations.length + 1)}
-						>
-							<MessageIcon />
-						</IconButton>
-						<IconButton
-							onClick={() => setIndex(conversations.length + 2)}
-						>
-							<PersonAddIcon />
-						</IconButton>
-					</div>
-				</ToolBar>
+					<IconButton
+						onClick={() => setIndex(conversations.length + 2)}
+					>
+						<PersonAddIcon />
+					</IconButton>
+				</div>
 			</AppBar>
 			<Grid
 				content
