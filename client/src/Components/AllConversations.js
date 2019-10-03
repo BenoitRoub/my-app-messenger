@@ -85,9 +85,15 @@ export default function AllConversations({ match }) {
 	const [conversations, setConversations] = useState([]);
 
 	const [updateDb, setUpdateDb] = useState(false);
-	function handleUpdateDb() {
-		setUpdateDb(!updateDb);
-	}
+
+	useEffect(() => {
+		var refreshMessage = setInterval(() => {
+			setUpdateDb(Math.random());
+		}, 1000);
+		return function cleanup() {
+			clearInterval(refreshMessage);
+		};
+	}, []);
 
 	useEffect(() => {
 		axios
@@ -95,12 +101,9 @@ export default function AllConversations({ match }) {
 			.then(res => {
 				if (res.data.length > 0) {
 					setConversations(res.data);
-					console.log(res.data);
 				}
 			});
 	}, [updateDb]);
-
-	console.log("Conversations :" + conversations);
 
 	const [refreshScroll, setRefreshScroll] = useState(false);
 	const [windowWidthQuery, setWindowWidthQuery] = useState();
@@ -122,15 +125,12 @@ export default function AllConversations({ match }) {
 					>
 						{conversations.map((conversation, index) =>
 							conversation.username === match.params.username ? (
-								(console.log("à l'intérieur du react"),
-								(
-									<Tab
-										style={{ textTransform: "none" }}
-										key={index}
-										label={conversation.to_username}
-										{...a11yProps(index)}
-									/>
-								))
+								<Tab
+									style={{ textTransform: "none" }}
+									key={index}
+									label={conversation.to_username}
+									{...a11yProps(index)}
+								/>
 							) : (
 								<Tab
 									style={{ textTransform: "none" }}
@@ -153,22 +153,13 @@ export default function AllConversations({ match }) {
 				<Grid item sm={8} style={{ overflow: "auto", height: "100vh" }}>
 					{conversations.map((conversation, index) =>
 						conversation.username === match.params.username ? (
-							(console.log(
-								"à l'intérieur du react niveau conersation uperso"
-							),
-							(
-								<TabPanel
-									value={value}
-									index={index}
-									key={index}
-								>
-									<Conversation
-										username={match.params.username}
-										to_username={conversation.to_username}
-										refreshScroll={refreshScroll}
-									/>
-								</TabPanel>
-							))
+							<TabPanel value={value} index={index} key={index}>
+								<Conversation
+									username={match.params.username}
+									to_username={conversation.to_username}
+									refreshScroll={refreshScroll}
+								/>
+							</TabPanel>
 						) : (
 							<TabPanel value={value} index={index} key={index}>
 								<Conversation
@@ -232,7 +223,6 @@ export default function AllConversations({ match }) {
 	else
 		return (
 			<Grid container xs="12" style={{ padding: "20px" }}>
-				{console.log("à l'intérieur du react mobile")}
 				<MobileVersion
 					conversations={conversations}
 					username={match.params.username}

@@ -76,7 +76,6 @@ export default function SearchUserForm(props) {
 		axios
 			.post(`http://localhost:5000/${props.destination}/add`, action)
 			.then(res => {
-				props.handleUpdateDb();
 				props.handleAction();
 				props.handleClick(props.destination);
 			});
