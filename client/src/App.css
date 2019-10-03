@@ -1,26 +1,24 @@
-.App {
-  text-align: center;
+::-webkit-scrollbar {
+  width: 10px;
+  height: 40px;
 }
 
-.App-logo {
-  height: 40vmin;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fafafa;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b1b1b1;
+  border-radius: 5px;
 }
 
-.App-link {
-  color: #09d3ac;
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #8a8a8a;
 }
 
-body {
-  background-color: #fafafa;
+.app {
+  background: #fafafa;
 }

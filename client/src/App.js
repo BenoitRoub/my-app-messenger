@@ -4,6 +4,7 @@ import AllConversations from "./Components/AllConversations";
 import Conversation from "./Components/Conversation";
 import UserProfile from "./Components/UserProfile";
 import Login from "./Components/Login";
+import css from "./App.css";
 
 function App() {
 	return (

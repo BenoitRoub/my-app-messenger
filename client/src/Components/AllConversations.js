@@ -56,7 +56,9 @@ const useStyles = makeStyles(theme => ({
 		height: 224
 	},
 	tabs: {
-		borderRight: `1px solid ${theme.palette.divider}`
+		borderRight: `1px solid ${theme.palette.divider}`,
+		overflow: "auto",
+		height: "100vh"
 	}
 }));
 
