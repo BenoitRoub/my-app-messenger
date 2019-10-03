@@ -40,7 +40,6 @@ export default function SearchUserForm(props) {
 		width: width
 	};
 
-	console.log(containerSearchBar);
 	const [searchInput, setSearchInput] = useState("");
 	const [users, setUsers] = useState([]);
 
@@ -49,7 +48,6 @@ export default function SearchUserForm(props) {
 
 		if (props.users === "users") {
 			var query = `${props.users}/${e.target.value}`;
-			console.log(`http://localhost:5000/${query}`);
 			fetchData(query);
 		} else {
 			var query = `${props.users}/${props.username}/${e.target.value}`;
