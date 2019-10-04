@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { Redirect } from "react-router";
+import { useSelector } from "react-redux";
 
 import Conversation from "./Conversation";
 import CreateConversation from "./CreateConversation";
@@ -105,9 +107,21 @@ export default function AllConversations({ match }) {
 
 	useEffect(() => setWindowWidthQuery(window.innerWidth), []);
 
+	const [notConnected, setNotConnected] = useState(false);
+	const reduxUsername = useSelector(state => state.user.username);
+
+	useEffect(() => {
+		if (reduxUsername !== match.params.username) {
+			if ("username=" + match.params.username !== document.cookie) {
+				setNotConnected(true);
+			}
+		}
+	}, []);
+
 	if (windowWidthQuery > 450)
 		return (
 			<Grid container justify="center">
+				{notConnected ? <Redirect to="/" /> : null}
 				<Grid sm={3} style={{ height: "90vh" }}>
 					<Tabs
 						orientation="vertical"

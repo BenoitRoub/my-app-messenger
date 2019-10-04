@@ -89,6 +89,7 @@ export default function SearchUserForm(props) {
 			});
 
 		setSearchInput("");
+		setUsers([]);
 	}
 
 	return (
