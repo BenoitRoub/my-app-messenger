@@ -21,11 +21,8 @@ export default function MobileVersion(props) {
 	const [index, setIndex] = useState(conversations.length + 3);
 	return (
 		<React.Fragment>
-			<AppBar
-				position="fixed"
-				style={{ justifyContent: "space-between" }}
-			>
-				<Toolbar>
+			<AppBar position="fixed">
+				<Toolbar style={{ justifyContent: "space-between" }}>
 					<IconButton
 						onClick={() => setIndex(conversations.length + 3)}
 					>
