@@ -32,10 +32,10 @@ const usersRouter = require("./routes/users");
 const conversationsRouter = require("./routes/conversations");
 const friendsRouter = require("./routes/friends");
 
-app.use("/messages", messagesRouter);
-app.use("/users", usersRouter);
-app.use("/conversations", conversationsRouter);
-app.use("/friends", friendsRouter);
+app.use("/database/messages", messagesRouter);
+app.use("/database/users", usersRouter);
+app.use("/database/conversations", conversationsRouter);
+app.use("/database/friends", friendsRouter);
 
 // ...
 // Right before your app.listen(), add this:

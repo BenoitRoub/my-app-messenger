@@ -16,17 +16,21 @@ export default function Login() {
 	const [isLogged, setIsLogged] = useState(false);
 
 	const [wrongInformations, setWrongInformations] = useState(false);
+	const [wrongUsername, setWrongUsername] = useState(false);
+	const [wrongPasswords, setWrongPasswords] = useState(false);
 
 	function connect(e) {
 		e.preventDefault();
-		axios.get(`http://localhost:5000/users/${usernameInput}`).then(res => {
-			if (res.data.length > 0) {
-				if (res.data[0].password === passwordInput) {
-					setUsername(usernameInput);
-					setIsLogged(true);
+		axios
+			.get(`http://localhost:5000/database/users/${usernameInput}`)
+			.then(res => {
+				if (res.data.length > 0) {
+					if (res.data[0].password === passwordInput) {
+						setUsername(usernameInput);
+						setIsLogged(true);
+					} else setWrongInformations(true);
 				} else setWrongInformations(true);
-			} else setWrongInformations(true);
-		});
+			});
 
 		setUsernameInput("");
 		setPasswordInput("");
@@ -40,22 +44,24 @@ export default function Login() {
 	] = useState("");
 
 	function Register(e) {
-		console.log(passwordInputRegister);
-		console.log(confirmPasswordInputRegister);
+		e.preventDefault();
 		if (passwordInputRegister === confirmPasswordInputRegister) {
-			e.preventDefault();
-
 			const user = {
 				username: usernameInputRegister,
 				password: passwordInputRegister
 			};
 
 			axios
-				.post("http://localhost:5000/users/add", user)
+				.post("http://localhost:5000/database/users/add", user)
 				.then(res =>
 					res
 						? (setUsername(usernameInputRegister),
 						  setIsLogged(true))
+						: null
+				)
+				.then(
+					!isLogged
+						? (setWrongUsername(true), setWrongPasswords(false))
 						: null
 				);
 
@@ -65,6 +71,8 @@ export default function Login() {
 		} else {
 			setPasswordInputRegister("");
 			setConfirmPasswordInputRegister("");
+			setWrongPasswords(true);
+			setWrongUsername(false);
 		}
 	}
 
@@ -89,7 +97,8 @@ export default function Login() {
 							<form
 								style={{
 									display: "flex",
-									flexDirection: "Column"
+									flexDirection: "Column",
+									alignItems: "center"
 								}}
 								onSubmit={connect}
 							>
@@ -118,15 +127,19 @@ export default function Login() {
 										setPasswordInput(e.target.value)
 									}
 								/>
+								{wrongInformations ? (
+									<p style={{ color: "#d42424" }}>
+										Username or Password incorrect
+									</p>
+								) : null}
 								<Button type="submit">Log in</Button>
-								<Button onClick={() => setLogin(false)}>
-									Or create an account
+								<Button
+									style={{ textTransform: "none" }}
+									onClick={() => setLogin(false)}
+								>
+									No account ? Register now
 								</Button>
 							</form>
-
-							{wrongInformations ? (
-								<p>Username or Password incorrect</p>
-							) : null}
 						</Paper>
 					</Grid>
 				) : (
@@ -139,7 +152,8 @@ export default function Login() {
 							<form
 								style={{
 									display: "flex",
-									flexDirection: "Column"
+									flexDirection: "Column",
+									alignItems: "center"
 								}}
 								onSubmit={Register}
 							>
@@ -170,7 +184,7 @@ export default function Login() {
 								/>
 								<TextField
 									id="outlined-password-input"
-									label="Password"
+									label="Confirm Password"
 									type="password"
 									autoComplete="current-password"
 									margin="normal"
@@ -183,7 +197,28 @@ export default function Login() {
 									}
 								/>
 
-								<Button type="submit">submit</Button>
+								{wrongPasswords ? (
+									<p style={{ color: "#d42424" }}>
+										passwords doesn't match
+									</p>
+								) : null}
+
+								{!isLogged && wrongUsername
+									? (console.log(!isLogged && wrongUsername),
+									  (
+											<p style={{ color: "#d42424" }}>
+												this username is already taken
+											</p>
+									  ))
+									: null}
+
+								<Button type="submit">Register</Button>
+								<Button
+									style={{ textTransform: "none" }}
+									onClick={() => setLogin(true)}
+								>
+									already have an account ?
+								</Button>
 							</form>
 						</Paper>
 					</Grid>

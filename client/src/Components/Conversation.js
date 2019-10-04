@@ -65,7 +65,7 @@ export default function Conversation(props) {
 	useEffect(() => {
 		axios
 			.get(
-				`http://localhost:5000/messages/${props.username}/${props.to_username}`
+				`http://localhost:5000/database/messages/${props.username}/${props.to_username}`
 			)
 			.then(res => {
 				if (res.data.length > 0) {
@@ -87,7 +87,7 @@ export default function Conversation(props) {
 		};
 
 		axios
-			.post("http://localhost:5000/messages/add", message)
+			.post("http://localhost:5000/database/messages/add", message)
 			.then(res => setUpdateMessageFromDB(!updateMessageFromDB));
 
 		setMessageInput("");

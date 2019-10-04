@@ -41,7 +41,7 @@ export default function MobileVersion(props) {
 				</div>
 			</AppBar>
 			<Grid
-				content
+				item
 				xs="12"
 				style={{
 					marginTop: 60,

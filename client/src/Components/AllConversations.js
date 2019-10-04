@@ -5,6 +5,7 @@ import Conversation from "./Conversation";
 import CreateConversation from "./CreateConversation";
 import SearchUserForm from "./SearchUserForm";
 import MobileVersion from "./MobileVersion.js";
+import SnackBar from "./MaterialUIComponent/SnackBar";
 
 import Grid from "@material-ui/core/Grid";
 import Tabs from "@material-ui/core/Tabs";
@@ -14,10 +15,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Snackbar from "@material-ui/core/Snackbar";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
-import CloseIcon from "@material-ui/icons/Close";
-
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -63,20 +60,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AllConversations({ match }) {
-	const [open, setOpen] = React.useState(false);
-
-	const handleClick = () => {
-		setOpen(true);
-	};
+	const [open, setOpen] = useState(false);
 
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") {
 			return;
 		}
-
 		setOpen(false);
 	};
-
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 
@@ -99,7 +90,9 @@ export default function AllConversations({ match }) {
 
 	useEffect(() => {
 		axios
-			.get(`http://localhost:5000/conversations/${match.params.username}`)
+			.get(
+				`http://localhost:5000/database/conversations/${match.params.username}`
+			)
 			.then(res => {
 				if (res.data.length > 0) {
 					setConversations(res.data);
@@ -125,37 +118,36 @@ export default function AllConversations({ match }) {
 						aria-label="Vertical tabs example"
 						className={classes.tabs}
 					>
+						{" "}
+						<Tab label="Add friends.." {...a11yProps(0)} />
+						<Tab label="Start a discussion" {...a11yProps(1)} />
 						{conversations.map((conversation, index) =>
 							conversation.username === match.params.username ? (
 								<Tab
 									style={{ textTransform: "none" }}
 									key={index}
 									label={conversation.to_username}
-									{...a11yProps(index)}
+									{...a11yProps(index + 2)}
 								/>
 							) : (
 								<Tab
 									style={{ textTransform: "none" }}
 									key={index}
 									label={conversation.username}
-									{...a11yProps(index)}
+									{...a11yProps(index + 2)}
 								/>
 							)
 						)}
-						<Tab
-							label="Start a discussion"
-							{...a11yProps(conversations.length)}
-						/>
-						<Tab
-							label="Add friends.."
-							{...a11yProps(conversations.length + 1)}
-						/>
 					</Tabs>
 				</Grid>
 				<Grid item sm={8} style={{ overflow: "auto", height: "100vh" }}>
 					{conversations.map((conversation, index) =>
 						conversation.username === match.params.username ? (
-							<TabPanel value={value} index={index} key={index}>
+							<TabPanel
+								value={value}
+								index={index + 2}
+								key={index}
+							>
 								<Conversation
 									username={match.params.username}
 									to_username={conversation.to_username}
@@ -163,7 +155,11 @@ export default function AllConversations({ match }) {
 								/>
 							</TabPanel>
 						) : (
-							<TabPanel value={value} index={index} key={index}>
+							<TabPanel
+								value={value}
+								index={index + 2}
+								key={index}
+							>
 								<Conversation
 									username={match.params.username}
 									to_username={conversation.username}
@@ -172,7 +168,7 @@ export default function AllConversations({ match }) {
 							</TabPanel>
 						)
 					)}
-					<TabPanel value={value} index={conversations.length}>
+					<TabPanel value={value} index={1}>
 						<form type="submit">
 							<SearchUserForm
 								username={match.params.username}
@@ -183,13 +179,13 @@ export default function AllConversations({ match }) {
 									setUpdateDb(!updateDb)
 								}
 								handleAction={() =>
-									setValue(conversations.length)
+									setValue(conversations.length + 2)
 								}
-								handleClick={() => handleClick()}
+								handleClick={() => setOpen(true)}
 							/>
 						</form>
 					</TabPanel>
-					<TabPanel value={value} index={conversations.length + 1}>
+					<TabPanel value={value} index={0}>
 						<form type="submit">
 							<SearchUserForm
 								username={match.params.username}
@@ -199,27 +195,17 @@ export default function AllConversations({ match }) {
 								handleUpdateDb={updateDb =>
 									setUpdateDb(!updateDb)
 								}
-								handleAction={() => setValue(value - 1)}
-								handleClick={() => handleClick()}
+								handleAction={() => setValue(value + 1)}
+								handleClick={() => setOpen(true)}
 							/>
 						</form>
 					</TabPanel>
 				</Grid>
-				<Snackbar
-					anchorOrigin={{
-						vertical: "bottom",
-						horizontal: "left"
-					}}
+				<SnackBar
+					message="Added"
 					open={open}
-					autoHideDuration={3000}
-					onClose={handleClose}
-				>
-					<SnackbarContent
-						variant="success"
-						aria-describedby="client-snackbar"
-						message={<span id="client-snackbar">Added</span>}
-					/>
-				</Snackbar>
+					handleClose={() => handleClose()}
+				/>
 			</Grid>
 		);
 	else
@@ -230,23 +216,13 @@ export default function AllConversations({ match }) {
 					username={match.params.username}
 					handleUpdateDb={updateDb => setUpdateDb(!updateDb)}
 					refreshScroll={refreshScroll}
-					handleClick={() => handleClick()}
+					handleClick={() => setOpen(true)}
 				/>
-				<Snackbar
-					anchorOrigin={{
-						vertical: "bottom",
-						horizontal: "left"
-					}}
+				<SnackBar
+					message="Added"
 					open={open}
-					autoHideDuration={3000}
-					onClose={handleClose}
-				>
-					<SnackbarContent
-						variant="success"
-						aria-describedby="client-snackbar"
-						message={<span id="client-snackbar">Added</span>}
-					/>
-				</Snackbar>
+					handleClose={() => handleClose()}
+				/>
 			</Grid>
 		);
 }

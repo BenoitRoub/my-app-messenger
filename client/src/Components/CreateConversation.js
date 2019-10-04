@@ -36,7 +36,7 @@ export default function CreateConversation(props) {
 		if (e.target.value !== "") {
 			axios
 				.get(
-					`http://localhost:5000/friends/${props.username}/${e.target.value}`
+					`http://localhost:5000/database/friends/${props.username}/${e.target.value}`
 				)
 				.then(res => {
 					if (res.data.length > 0) {
@@ -52,7 +52,10 @@ export default function CreateConversation(props) {
 			to_username: usernameFriend
 		};
 		axios
-			.post(`http://localhost:5000/conversations/add`, conversation)
+			.post(
+				`http://localhost:5000/database/conversations/add`,
+				conversation
+			)
 			.then(res => props.handleUpdateDb());
 	}
 
