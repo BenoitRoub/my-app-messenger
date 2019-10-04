@@ -3,7 +3,7 @@ import axios from "axios";
 
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import Textfield from "@material-ui/core/Textfield";
+import TextField from "@material-ui/core/TextField";
 import SnackBar from "./MaterialUIComponent/SnackBar";
 
 const allContainer = {
@@ -111,7 +111,7 @@ export default function UserProfile(props) {
 				</ul>
 			</Paper>
 			<form onSubmit={updatePassword} style={allContainer}>
-				<Textfield
+				<TextField
 					id="outlined-password-input"
 					label="New password"
 					type="password"
@@ -122,7 +122,7 @@ export default function UserProfile(props) {
 					onChange={e => setNewPasswordInput(e.target.value)}
 				/>
 				{newPasswordInput !== "" ? (
-					<Textfield
+					<TextField
 						id="outlined-password-input"
 						label="Confirm password"
 						type="password"
