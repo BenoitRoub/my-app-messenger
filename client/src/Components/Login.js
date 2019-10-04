@@ -83,6 +83,7 @@ export default function Login() {
 					res
 						? (setUsername(usernameInputRegister),
 						  setCookie("username", usernameInputRegister, 3),
+						  dispatch({ type: "logged", username: usernameInput }),
 						  setIsLogged(true))
 						: null
 				)

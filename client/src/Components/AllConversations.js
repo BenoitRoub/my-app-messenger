@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Redirect } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Conversation from "./Conversation";
 import CreateConversation from "./CreateConversation";
 import SearchUserForm from "./SearchUserForm";
+import UserProfile from "./UserProfile";
 import MobileVersion from "./MobileVersion.js";
 import SnackBar from "./MaterialUIComponent/SnackBar";
 
@@ -109,14 +110,25 @@ export default function AllConversations({ match }) {
 
 	const [notConnected, setNotConnected] = useState(false);
 	const reduxUsername = useSelector(state => state.user.username);
+	const [refreshCookie, setRefreshCookie] = useState(false);
 
 	useEffect(() => {
 		if (reduxUsername !== match.params.username) {
 			if ("username=" + match.params.username !== document.cookie) {
+				console.log("redirected");
 				setNotConnected(true);
 			}
 		}
-	}, []);
+		console.log("refresh Redirect");
+	}, [refreshCookie]);
+
+	const dispatch = useDispatch();
+
+	function disconnect() {
+		document.cookie = `username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/conversations/${match.params.username}`;
+		dispatch({ type: "disconnect" });
+		setRefreshCookie(!refreshCookie);
+	}
 
 	if (windowWidthQuery > 450)
 		return (
@@ -132,23 +144,23 @@ export default function AllConversations({ match }) {
 						aria-label="Vertical tabs example"
 						className={classes.tabs}
 					>
-						{" "}
-						<Tab label="Add friends.." {...a11yProps(0)} />
-						<Tab label="Start a discussion" {...a11yProps(1)} />
+						<Tab label="Profile" {...a11yProps(0)} />
+						<Tab label="Add friends.." {...a11yProps(1)} />
+						<Tab label="Start a discussion" {...a11yProps(2)} />
 						{conversations.map((conversation, index) =>
 							conversation.username === match.params.username ? (
 								<Tab
 									style={{ textTransform: "none" }}
 									key={index}
 									label={conversation.to_username}
-									{...a11yProps(index + 2)}
+									{...a11yProps(index + 3)}
 								/>
 							) : (
 								<Tab
 									style={{ textTransform: "none" }}
 									key={index}
 									label={conversation.username}
-									{...a11yProps(index + 2)}
+									{...a11yProps(index + 3)}
 								/>
 							)
 						)}
@@ -159,7 +171,7 @@ export default function AllConversations({ match }) {
 						conversation.username === match.params.username ? (
 							<TabPanel
 								value={value}
-								index={index + 2}
+								index={index + 3}
 								key={index}
 							>
 								<Conversation
@@ -171,7 +183,7 @@ export default function AllConversations({ match }) {
 						) : (
 							<TabPanel
 								value={value}
-								index={index + 2}
+								index={index + 3}
 								key={index}
 							>
 								<Conversation
@@ -182,7 +194,29 @@ export default function AllConversations({ match }) {
 							</TabPanel>
 						)
 					)}
+					<TabPanel value={value} index={0}>
+						<UserProfile
+							username={match.params.username}
+							disconnect={() => disconnect()}
+							addFriends={() => setValue(1)}
+						/>
+					</TabPanel>
 					<TabPanel value={value} index={1}>
+						<form type="submit">
+							<SearchUserForm
+								username={match.params.username}
+								users="users"
+								destination="friends"
+								userQuery="username"
+								handleUpdateDb={updateDb =>
+									setUpdateDb(!updateDb)
+								}
+								handleAction={() => setValue(value + 1)}
+								handleClick={() => setOpen(true)}
+							/>
+						</form>
+					</TabPanel>
+					<TabPanel value={value} index={2}>
 						<form type="submit">
 							<SearchUserForm
 								username={match.params.username}
@@ -195,21 +229,6 @@ export default function AllConversations({ match }) {
 								handleAction={() =>
 									setValue(conversations.length + 2)
 								}
-								handleClick={() => setOpen(true)}
-							/>
-						</form>
-					</TabPanel>
-					<TabPanel value={value} index={0}>
-						<form type="submit">
-							<SearchUserForm
-								username={match.params.username}
-								users="users"
-								destination="friends"
-								userQuery="username"
-								handleUpdateDb={updateDb =>
-									setUpdateDb(!updateDb)
-								}
-								handleAction={() => setValue(value + 1)}
 								handleClick={() => setOpen(true)}
 							/>
 						</form>

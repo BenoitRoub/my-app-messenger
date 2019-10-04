@@ -25,4 +25,17 @@ router.route("/add").post((req, res) => {
 		.catch(err => res.status(400).json("Error : " + err));
 });
 
+router.route("/updatepassword/:username").post((req, res) => {
+	User.findOne({ username: new RegExp(req.params.username) }).then(user => {
+		user.username = req.params.username;
+		user.password = req.body.password;
+
+		console.log(user);
+
+		user.save()
+			.then(() => res.json("Users updated!"))
+			.catch(err => res.status(400).json("Error : " + err));
+	});
+});
+
 module.exports = router;
