@@ -7,7 +7,7 @@ import SearchUserForm from "./SearchUserForm";
 import Button from "@material-ui/core/Button";
 import Fab from "@material-ui/core/Fab";
 import AppBar from "@material-ui/core/AppBar";
-import ToolBar from "@material-ui/core/ToolBar";
+import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
@@ -25,7 +25,7 @@ export default function MobileVersion(props) {
 				position="fixed"
 				style={{ justifyContent: "space-between" }}
 			>
-				<ToolBar>
+				<Toolbar>
 					<IconButton
 						onClick={() => setIndex(conversations.length + 3)}
 					>
@@ -43,7 +43,7 @@ export default function MobileVersion(props) {
 							<PersonAddIcon />
 						</IconButton>
 					</div>
-				</ToolBar>
+				</Toolbar>
 			</AppBar>
 			<Grid
 				item
