@@ -53,7 +53,7 @@ export default function UserProfile(props) {
 			};
 			axios
 				.post(
-					`http://localhost:5000/database/users/updatepassword/${props.username}`,
+					`/database/users/updatepassword/${props.username}`,
 					password
 				)
 				.then(res => {

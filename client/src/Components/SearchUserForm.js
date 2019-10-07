@@ -57,18 +57,16 @@ export default function SearchUserForm(props) {
 
 		function fetchData(query) {
 			if (e.target.value !== "") {
-				axios
-					.get(`http://localhost:5000/database/${query}`)
-					.then(res => {
-						if (res.data.length > 0) {
-							setUsers(res.data);
-						} else
-							setUsers([
-								{
-									[props.userQuery]: `No ${props.users} found..`
-								}
-							]);
-					});
+				axios.get(`/database/${query}`).then(res => {
+					if (res.data.length > 0) {
+						setUsers(res.data);
+					} else
+						setUsers([
+							{
+								[props.userQuery]: `No ${props.users} found..`
+							}
+						]);
+				});
 			} else setUsers([]);
 		}
 	}
@@ -78,15 +76,10 @@ export default function SearchUserForm(props) {
 			username: props.username,
 			to_username: usernameFriend
 		};
-		axios
-			.post(
-				`http://localhost:5000/database/${props.destination}/add`,
-				action
-			)
-			.then(res => {
-				props.handleAction();
-				props.handleClick(props.destination);
-			});
+		axios.post(`/database/${props.destination}/add`, action).then(res => {
+			props.handleAction();
+			props.handleClick(props.destination);
+		});
 
 		setSearchInput("");
 		setUsers([]);

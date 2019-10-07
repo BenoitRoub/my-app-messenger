@@ -93,9 +93,7 @@ export default function AllConversations({ match }) {
 
 	useEffect(() => {
 		axios
-			.get(
-				`http://localhost:5000/database/conversations/${match.params.username}`
-			)
+			.get(`/database/conversations/${match.params.username}`)
 			.then(res => {
 				if (res.data.length > 0) {
 					setConversations(res.data);

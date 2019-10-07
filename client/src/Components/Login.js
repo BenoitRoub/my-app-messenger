@@ -58,14 +58,15 @@ export default function Login() {
 				.then(res =>
 					res
 						? (setUsername(usernameInputRegister),
-						  dispatch({ type: "logged", username: usernameInput }),
+						  dispatch({
+								type: "logged",
+								username: usernameInputRegister
+						  }),
 						  setIsLogged(true))
 						: null
 				)
-				.then(
-					!isLogged
-						? (setWrongUsername(true), setWrongPasswords(false))
-						: null
+				.catch(
+					err => (setWrongUsername(true), setWrongPasswords(false))
 				);
 
 			setUsernameInputRegister("");
@@ -206,14 +207,11 @@ export default function Login() {
 									</p>
 								) : null}
 
-								{!isLogged && wrongUsername
-									? (console.log(!isLogged && wrongUsername),
-									  (
-											<p style={{ color: "#d42424" }}>
-												this username is already taken
-											</p>
-									  ))
-									: null}
+								{wrongUsername ? (
+									<p style={{ color: "#d42424" }}>
+										username already taken
+									</p>
+								) : null}
 
 								<Button type="submit">Register</Button>
 								<Button

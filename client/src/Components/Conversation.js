@@ -64,9 +64,7 @@ export default function Conversation(props) {
 
 	useEffect(() => {
 		axios
-			.get(
-				`http://localhost:5000/database/messages/${props.username}/${props.to_username}`
-			)
+			.get(`/database/messages/${props.username}/${props.to_username}`)
 			.then(res => {
 				if (res.data.length > 0) {
 					setMessages(res.data);
@@ -87,7 +85,7 @@ export default function Conversation(props) {
 		};
 
 		axios
-			.post("http://localhost:5000/database/messages/add", message)
+			.post("/database/messages/add", message)
 			.then(res => setUpdateMessageFromDB(!updateMessageFromDB));
 
 		setMessageInput("");
