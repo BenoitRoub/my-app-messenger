@@ -13,7 +13,7 @@ router.route("/:username/:to_username").get((req, res) => {
 			{
 				username: req.params.username
 			},
-			{ to_username: new RegExp(req.params.to_username) }
+			{ to_username: new RegExp(req.params.to_username, "i") }
 		]
 	})
 		.then(friends => res.json(friends))

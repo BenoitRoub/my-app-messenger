@@ -83,14 +83,14 @@ export default function UserProfile(props) {
 						style={{ textTransform: "none" }}
 						onClick={() => setShowFriends(true)}
 					>
-						See more
+						see all
 					</Button>
 				) : (
 					<Button
 						style={{ textTransform: "none" }}
 						onClick={() => setShowFriends(false)}
 					>
-						See less
+						see less
 					</Button>
 				)
 			) : null}
@@ -110,38 +110,50 @@ export default function UserProfile(props) {
 						  ))}
 				</ul>
 			</Paper>
-			<form onSubmit={updatePassword} style={allContainer}>
-				<TextField
-					id="outlined-password-input"
-					label="New password"
-					type="password"
-					name="password"
-					margin="normal"
-					variant="outlined"
-					value={newPasswordInput}
-					onChange={e => setNewPasswordInput(e.target.value)}
-				/>
-				{newPasswordInput !== "" ? (
+			<div style={{ display: "flex", justifyContent: "space-around" }}>
+				<form onSubmit={updatePassword} style={allContainer}>
 					<TextField
 						id="outlined-password-input"
-						label="Confirm password"
+						label="New password"
 						type="password"
 						name="password"
 						margin="normal"
 						variant="outlined"
-						value={confirmPasswordInput}
-						onChange={e => setConfirmPasswordInput(e.target.value)}
+						value={newPasswordInput}
+						onChange={e => setNewPasswordInput(e.target.value)}
 					/>
-				) : null}
-				<Button type="submit">Update Password</Button>
-			</form>
-			<SnackBar
-				message="Password have been changed"
-				open={open}
-				handleClose={() => handleClose()}
-			/>
+					{newPasswordInput !== "" ? (
+						<TextField
+							id="outlined-password-input"
+							label="Confirm password"
+							type="password"
+							name="password"
+							margin="normal"
+							variant="outlined"
+							value={confirmPasswordInput}
+							onChange={e =>
+								setConfirmPasswordInput(e.target.value)
+							}
+						/>
+					) : null}
+					<Button type="submit">Update Password</Button>
+				</form>
+				<SnackBar
+					message="Password have been changed"
+					open={open}
+					handleClose={() => handleClose()}
+				/>
 
-			<Button onClick={props.disconnect}>Sign out</Button>
+				<Button
+					style={{
+						height: "3em",
+						marginTop: 60
+					}}
+					onClick={props.disconnect}
+				>
+					Sign out
+				</Button>
+			</div>
 		</div>
 	);
 }

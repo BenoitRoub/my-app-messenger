@@ -8,7 +8,7 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/:username").get((req, res) => {
-	User.find({ username: new RegExp(req.params.username) })
+	User.find({ username: new RegExp(req.params.username, "i") })
 		.then(users => res.json(users))
 		.catch(err => res.status(400).json("Error : " + err));
 });

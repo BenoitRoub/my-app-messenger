@@ -108,6 +108,19 @@ export default function AllConversations({ match }) {
 
 	useEffect(() => setWindowWidthQuery(window.innerWidth), []);
 
+	function setCookie(cname, cvalue, exdays) {
+		var d = new Date();
+		d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+		var expires = "expires=" + d.toUTCString();
+		document.cookie =
+			cname +
+			"=" +
+			cvalue +
+			";" +
+			expires +
+			`;path=/conversations/${cvalue}`;
+	}
+
 	const [notConnected, setNotConnected] = useState(false);
 	const reduxUsername = useSelector(state => state.user.username);
 	const [refreshCookie, setRefreshCookie] = useState(false);
@@ -115,11 +128,9 @@ export default function AllConversations({ match }) {
 	useEffect(() => {
 		if (reduxUsername !== match.params.username) {
 			if ("username=" + match.params.username !== document.cookie) {
-				console.log("redirected");
 				setNotConnected(true);
 			}
-		}
-		console.log("refresh Redirect");
+		} else setCookie("username", match.params.username, 3);
 	}, [refreshCookie]);
 
 	const dispatch = useDispatch();

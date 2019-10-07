@@ -20,27 +20,6 @@ export default function Login() {
 	const [wrongUsername, setWrongUsername] = useState(false);
 	const [wrongPasswords, setWrongPasswords] = useState(false);
 
-	function setCookie(cname, cvalue, exdays) {
-		var d = new Date();
-		d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-		var expires = "expires=" + d.toUTCString();
-		document.cookie =
-			cname +
-			"=" +
-			cvalue +
-			";" +
-			expires +
-			`;path=/conversations/${cvalue}`;
-		console.log(
-			cname +
-				"=" +
-				cvalue +
-				";" +
-				expires +
-				`;path=/conversations/${cvalue}`
-		);
-	}
-
 	const dispatch = useDispatch();
 
 	function connect(e) {
@@ -51,7 +30,6 @@ export default function Login() {
 				if (res.data.length > 0) {
 					if (res.data[0].password === passwordInput) {
 						setUsername(usernameInput);
-						setCookie("username", usernameInput, 3);
 						dispatch({ type: "logged", username: usernameInput });
 						setIsLogged(true);
 					} else setWrongInformations(true);
@@ -82,7 +60,6 @@ export default function Login() {
 				.then(res =>
 					res
 						? (setUsername(usernameInputRegister),
-						  setCookie("username", usernameInputRegister, 3),
 						  dispatch({ type: "logged", username: usernameInput }),
 						  setIsLogged(true))
 						: null

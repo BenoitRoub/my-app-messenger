@@ -97,7 +97,7 @@ export default function SearchUserForm(props) {
 			<Paper style={containerSearchBar}>
 				<InputBase
 					style={inputStyle}
-					placeholder={`Search a ${props.users}..`}
+					placeholder={`Search ${props.users}..`}
 					inputProps={{
 						"aria-label": "description"
 					}}
@@ -106,10 +106,10 @@ export default function SearchUserForm(props) {
 					onChange={updateSearchInput}
 				/>
 				{users[0] !== undefined ? <Divider /> : null}
-				{users.map(user => (
+				{users.map((user, index) => (
 					<Button
 						style={styleUsers}
-						key={user.to_username}
+						key={index}
 						onClick={() => createAction(user[props.userQuery])}
 					>
 						{user[props.userQuery]}
