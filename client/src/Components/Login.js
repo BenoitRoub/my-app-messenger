@@ -24,17 +24,15 @@ export default function Login() {
 
 	function connect(e) {
 		e.preventDefault();
-		axios
-			.get(`http://localhost:5000/database/users/${usernameInput}`)
-			.then(res => {
-				if (res.data.length > 0) {
-					if (res.data[0].password === passwordInput) {
-						setUsername(usernameInput);
-						dispatch({ type: "logged", username: usernameInput });
-						setIsLogged(true);
-					} else setWrongInformations(true);
+		axios.get(`/database/users/${usernameInput}`).then(res => {
+			if (res.data.length > 0) {
+				if (res.data[0].password === passwordInput) {
+					setUsername(usernameInput);
+					dispatch({ type: "logged", username: usernameInput });
+					setIsLogged(true);
 				} else setWrongInformations(true);
-			});
+			} else setWrongInformations(true);
+		});
 
 		setUsernameInput("");
 		setPasswordInput("");
@@ -56,7 +54,7 @@ export default function Login() {
 			};
 
 			axios
-				.post("http://localhost:5000/database/users/add", user)
+				.post("/database/users/add", user)
 				.then(res =>
 					res
 						? (setUsername(usernameInputRegister),
