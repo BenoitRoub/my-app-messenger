@@ -89,12 +89,20 @@ export default function Conversation(props) {
 			setUpdateMessageFromDB(!updateMessageFromDB);
 			if (
 				message.to_username ===
-					"TestAccountFeelFreeToAddAndTestMessages" ||
-				message.to_username === "TestProfileFeelFreeToSendMessage"
+				"TestAccountFeelFreeToAddAndTestMessages"
 			) {
 				const messageAuto = {
 					message: "This is an automatic response.",
 					username: "TestAccountFeelFreeToAddAndTestMessages",
+					to_username: props.username,
+					date: date
+				};
+				axios.post("/database/messages/add", messageAuto);
+			}
+			if (message.to_username === "TestProfileFeelFreeToSendMessage") {
+				const messageAuto = {
+					message: "This is an automatic response.",
+					username: "TestProfileFeelFreeToSendMessage",
 					to_username: props.username,
 					date: date
 				};
