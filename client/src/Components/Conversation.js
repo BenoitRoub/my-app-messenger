@@ -48,7 +48,6 @@ const inputStyle = {
 };
 
 export default function Conversation(props) {
-	const date = new Date();
 	const [messages, setMessages] = useState([]);
 	const [oldMessages, setOldMessages] = useState([]);
 	const [updateMessageFromDB, setUpdateMessageFromDB] = useState(1);
@@ -77,6 +76,8 @@ export default function Conversation(props) {
 	function sendMessage(e) {
 		e.preventDefault();
 
+		const date = new Date();
+
 		const message = {
 			message: messageInput,
 			username: props.username,
@@ -84,9 +85,21 @@ export default function Conversation(props) {
 			date: date
 		};
 
-		axios
-			.post("/database/messages/add", message)
-			.then(res => setUpdateMessageFromDB(!updateMessageFromDB));
+		axios.post("/database/messages/add", message).then(res => {
+			setUpdateMessageFromDB(!updateMessageFromDB);
+			if (
+				message.to_username ===
+				"TestAccountFeelFreeToAddAndTestMessages"
+			) {
+				const messageAuto = {
+					message: "This is an automatic response.",
+					username: "TestAccountFeelFreeToAddAndTestMessages",
+					to_username: props.username,
+					date: date
+				};
+				axios.post("/database/messages/add", messageAuto);
+			}
+		});
 
 		setMessageInput("");
 	}
@@ -108,15 +121,24 @@ export default function Conversation(props) {
 				<ul style={{ width: "85%" }}>
 					{messages.map(message =>
 						message.username === props.username ? (
-							<div style={containerMessageSend} key={message._id}>
-								<li style={messageSend}>{message.message}</li>
-							</div>
+							<React.Fragment>
+								<div
+									style={containerMessageSend}
+									key={message._id}
+								>
+									<li style={messageSend}>
+										{message.message}
+									</li>
+								</div>
+							</React.Fragment>
 						) : (
-							<div style={containerMessage} key={message._id}>
-								<li style={messageReceive}>
-									{message.message}
-								</li>
-							</div>
+							<React.Fragment>
+								<div style={containerMessage} key={message._id}>
+									<li style={messageReceive}>
+										{message.message}
+									</li>
+								</div>
+							</React.Fragment>
 						)
 					)}
 				</ul>

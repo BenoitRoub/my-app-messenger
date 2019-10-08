@@ -46,7 +46,7 @@ export default function MobileVersion(props) {
 				item
 				xs="12"
 				style={{
-					marginTop: 60,
+					marginTop: 80,
 					display: "flex",
 					flexDirection: "column"
 				}}
