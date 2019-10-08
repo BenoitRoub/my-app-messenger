@@ -89,7 +89,8 @@ export default function Conversation(props) {
 			setUpdateMessageFromDB(!updateMessageFromDB);
 			if (
 				message.to_username ===
-				"TestAccountFeelFreeToAddAndTestMessages"
+					"TestAccountFeelFreeToAddAndTestMessages" ||
+				message.to_username === "TestProfileFeelFreeToSendMessage"
 			) {
 				const messageAuto = {
 					message: "This is an automatic response.",

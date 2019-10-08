@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Redirect } from "react-router";
 import { useDispatch } from "react-redux";
+import photoBenoit from "./photoBenoit.JPG";
 
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
@@ -261,13 +262,15 @@ export default function Login() {
 									}}
 									onClick={() => setBot(false)}
 								/>
-								<div
+								<img
+									src={photoBenoit}
+									alt="photo créateur"
 									style={{
 										width: 50,
 										height: 50,
 										borderRadius: "50%",
 										background:
-											"center / contain url(/static/Image/photoBenoit.JPG)",
+											"center / contain url(./photoBenoit.JPG)",
 										marginRight: 10
 									}}
 								/>

@@ -33,12 +33,7 @@ export default function UserProfile(props) {
 					setFriends(res.data);
 					setFirstFriends(res.data.slice(0, 4));
 					if (res.data.length > 4) setHideButton(false);
-				} else
-					setFriends([
-						{
-							to_username: `No friends found..`
-						}
-					]);
+				} else setFriends([]);
 			});
 	}, [showFriends]);
 
