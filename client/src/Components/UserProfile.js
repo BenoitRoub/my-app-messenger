@@ -36,7 +36,7 @@ export default function UserProfile(props) {
 				} else
 					setFriends([
 						{
-							[props.userQuery]: `No friends found..`
+							to_username: `No friends found..`
 						}
 					]);
 			});
@@ -77,39 +77,7 @@ export default function UserProfile(props) {
 		<div style={allContainer}>
 			<p style={{ display: "inline" }}>Friends ({friends.length})</p>
 			<Button onClick={props.addFriends}>Add More Friends</Button>
-			{!hideButton ? (
-				!showFriends ? (
-					<Button
-						style={{ textTransform: "none" }}
-						onClick={() => setShowFriends(true)}
-					>
-						see all
-					</Button>
-				) : (
-					<Button
-						style={{ textTransform: "none" }}
-						onClick={() => setShowFriends(false)}
-					>
-						see less
-					</Button>
-				)
-			) : null}
 
-			<Paper style={allContainer}>
-				<ul style={{ padding: 0 }}>
-					{showFriends
-						? friends.map(friend => (
-								<li style={{ listStyle: "none" }}>
-									{friend.to_username}
-								</li>
-						  ))
-						: firstFriends.map(friend => (
-								<li style={{ listStyle: "none" }}>
-									{friend.to_username}
-								</li>
-						  ))}
-				</ul>
-			</Paper>
 			<div style={{ display: "flex", justifyContent: "space-around" }}>
 				<form onSubmit={updatePassword} style={allContainer}>
 					<TextField

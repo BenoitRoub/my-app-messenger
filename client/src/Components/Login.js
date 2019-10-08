@@ -8,6 +8,9 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import Fab from "@material-ui/core/Fab";
+import ChatIcon from "@material-ui/icons/Chat";
+import CloseIcon from "@material-ui/icons/Close";
 
 export default function Login() {
 	const [usernameInput, setUsernameInput] = useState("");
@@ -81,6 +84,8 @@ export default function Login() {
 	}
 
 	const [login, setLogin] = useState(true);
+
+	const [bot, setBot] = useState(true);
 
 	if (isLogged) {
 		return <Redirect to={`/conversations/${username}`} />;
@@ -224,6 +229,71 @@ export default function Login() {
 						</Paper>
 					</Grid>
 				)}
+				<Grid item sm="6" xs="12">
+					<Fab
+						style={{
+							position: "absolute",
+							right: "5%",
+							bottom: "5%",
+							backgroundColor: "#5673f1"
+						}}
+						onClick={() => setBot(!bot)}
+					>
+						<ChatIcon style={{ color: "white" }} />
+						{bot ? (
+							<Paper
+								style={{
+									position: "absolute",
+									bottom: "100%",
+									right: "100%",
+									padding: "20px",
+									display: "flex"
+								}}
+							>
+								<CloseIcon
+									style={{
+										position: "absolute",
+										right: "5px",
+										top: "5px",
+										color: "grey",
+										width: "15",
+										height: "auto"
+									}}
+									onClick={() => setBot(false)}
+								/>
+								<div
+									style={{
+										width: 50,
+										height: 50,
+										borderRadius: "50%",
+										background:
+											"center / contain url(/static/Image/photoBenoit.JPG)",
+										marginRight: 10
+									}}
+								/>
+								<p
+									style={{
+										textTransform: "none",
+										fontSize: "0.8 em",
+										fontWeight: "normal",
+										width: "200px",
+										margin: 0,
+										color: "white",
+										backgroundColor: "#5673f1",
+										borderRadius: "10px",
+										padding: 20
+									}}
+								>
+									Bonjour, je suis Benoit Roubaud, le
+									développeur de ce site. Si vous voulez
+									tester le site n'hésitez pas à créer un faux
+									profile et à ajouté l'un des différents
+									profile de test que j'ai créer.
+								</p>
+							</Paper>
+						) : null}
+					</Fab>
+				</Grid>
 			</div>
 		);
 	}
