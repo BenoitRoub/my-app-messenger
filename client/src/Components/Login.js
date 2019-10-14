@@ -287,11 +287,11 @@ export default function Login() {
 										padding: 20
 									}}
 								>
-									Bonjour, je suis Benoit Roubaud, le
+									Bonjour, je suis Benoît Roubaud, le
 									développeur de ce site. Si vous voulez
-									tester le site n'hésitez pas à créer un faux
-									profile et à ajouté l'un des différents
-									profile de test que j'ai créer.
+									tester le site, n'hésitez pas à créer un
+									faux profil et à ajouter l'un des différents
+									profils de tests que j'ai créé.
 								</p>
 							</Paper>
 						) : null}
